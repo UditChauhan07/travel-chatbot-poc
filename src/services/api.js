@@ -2,9 +2,9 @@
 import axios from "axios";
 const flightResults = [];
 console.log(flightResults, "flightResults");
-// const API_URL = process.env.GOOGLE_API_KEY;
+const API_URL = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 import { GoogleGenerativeAI } from "@google/generative-ai";
-const genAI = new GoogleGenerativeAI("AIzaSyDq2-btqeZjPF8kDtE_qfDnfxYYlu3D4e4");
+const genAI = new GoogleGenerativeAI(API_URL);
 //correct code
 // export const searchFlights = async (searchParams) => {
 //   try {
@@ -104,7 +104,7 @@ export const searchFlights = async (searchParams) => {
     // You are a flight travel assistant. Provide the 6 best flight options for traveling from ${origin} to ${destination}, based on the following preferences: ${JSON.stringify(
     //   preferences
     // )}.
-    
+
     // Your response must be in valid JSON format with this exact structure:
     // {
     //   "suggestions": [
@@ -122,7 +122,7 @@ export const searchFlights = async (searchParams) => {
     //   ],
     //   "summary": "A detailed summary comparing the suggestions, including pricing ranges, flight durations, and layover details."
     // }
-    
+
     // Ensure the following:
     // 1. The flight data provided is accurate and matches the preferences.
     // 2. Each booking link must be functional and lead to a valid flight booking page.
@@ -132,7 +132,9 @@ export const searchFlights = async (searchParams) => {
     // 6. Summarize the options clearly, highlighting differences in price, duration, and layovers.
     // `;
     const prompt = `
-    You are a flight travel assistant. Provide the 6 best flight options for traveling from ${origin} to ${destination}, based on the following preferences: ${JSON.stringify(preferences)}.
+    You are a flight travel assistant. Provide the 6 best flight options for traveling from ${origin} to ${destination}, based on the following preferences: ${JSON.stringify(
+      preferences
+    )}.
     
     Your response must be in valid JSON format with this exact structure:
     {
@@ -161,7 +163,6 @@ export const searchFlights = async (searchParams) => {
     6. Make sure to provide the most accurate and up-to-date flight information. The data should reflect the latest available flights, not outdated or incorrect information.
     7. Summarize the options clearly, highlighting differences in price, duration, and layovers.
     `;
-    
 
     console.log("Sending prompt to AI model:", prompt);
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
@@ -204,7 +205,6 @@ export const searchFlights = async (searchParams) => {
     window.location.reload();
   }
 };
-
 export async function askQuery(query, flightResults) {
   console.log({ flightResults });
 
