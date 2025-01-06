@@ -1,0 +1,154 @@
+.card {
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.airline {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  font-size: 14px;
+  color: #666;
+}
+
+.value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+.card {
+  width: 300px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.airline {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: bold;
+  color: #4caf50;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  font-size: 14px;
+  color: #666;
+}
+
+.value {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+.cardMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 1rem;
+  flex-wrap: wrap;
+}
+.summeryCardMain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: wrap;
+}
+.summeryCard {
+  width: 77%;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+.Result-module__pV0sbW__value {
+  font-size: 14px;
+  font-weight: bold;
+  word-break: break-all;
+  color: #333;
+}
+.detailRow .value {
+  word-break: break-all;
+  padding-left: 0%;
+
+}
+.cardLink {
+  text-decoration: none; /* Remove the default underline */
+  color: inherit; /* Inherit the text color to maintain your design */
+  display: block; /* Ensures the entire card is clickable */
+}
+
+.card {
+  border: 1px solid #ddd; /* Add a light border */
+  border-radius: 8px; /* Rounded corners */
+  padding: 16px; /* Space inside the card */
+  margin: 12px 0; /* Space between cards */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.2s, box-shadow 0.2s; /* Animation for hover effect */
+}
+
+.card:hover {
+  transform: translateY(-4px); /* Slight lift effect */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}

@@ -1,0 +1,49 @@
+.title {
+  text-align: center;
+  font-family: "Montserrat", sans-serif;
+}
+.resetPreferencesButton {
+  position: absolute;
+  top: -5px;
+  right: 0px;
+  border: 1px soldi black;
+  margin: 1.5rem;
+}
+.resetPreferencesButton button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 0.60rem 1.3rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-family: "Montserrat", sans-serif;
+}
+.backBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -5px;
+  left: 0px;
+  border: 1px soldi black;
+  margin: 1.5rem;
+}
+.backBtnIcon{font-size: 22px;}
+.backBtn button {
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 0.60rem 1.3rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-family: "Montserrat", sans-serif;
+  display:flex;align-items: center;justify-content: center;gap: 5px;
+}
