@@ -1,5 +1,5 @@
 // import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Plane } from "lucide-react";
+
 import type { FlightResponse } from "../types/flight";
 import styles from "./Result.module.css";
 interface FlightResultsProps {
@@ -24,7 +24,7 @@ export function FlightResults({ results }: FlightResultsProps) {
         {results.suggestions.map((flight, index) => (
           <a
             key={index}
-            href={flight.bookingLink}
+            href={flight?.bookingLink}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.cardLink} // Add CSS for styling the link

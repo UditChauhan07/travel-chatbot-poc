@@ -12,21 +12,22 @@ function App() {
   const [results, setResults] = useState(null);
   const [hasError, setHasError] = useState(false); // To track if an error occurred
   const [showPreferences, setShowPreferences] = useState(false);
-  const [preferences, setPreferences] = useState(() => {
-    const savedPreferences = localStorage.getItem("flightPreferences");
-    return savedPreferences
-      ? JSON.parse(savedPreferences)
-      : {
-          budget: "",
-          class: "economy",
-          departureDate: "",
-          isReturnFlight: false,
-          returnDate: "",
-          directFlight: false,
-          flexibleDates: false,
-        };
+  const [preferences, setPreferences] = useState({
+    budget: "",
+    class: "economy",
+    departureDate: "",
+    isReturnFlight: false,
+    returnDate: "",
+    directFlight: false,
+    flexibleDates: false,
   });
-
+  useEffect(() => {
+    // This ensures the code runs only on the client-side
+    const savedPreferences = localStorage.getItem("flightPreferences");
+    if (savedPreferences) {
+      setPreferences(JSON.parse(savedPreferences));
+    }
+  }, []);
   useEffect(() => {
     const hasSetPreferences = localStorage.getItem("hasSetPreferences");
     if (!hasSetPreferences) {

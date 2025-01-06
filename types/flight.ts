@@ -13,6 +13,7 @@ export interface FlightPreferences {
     price: string
     class: string
     duration: string
+    bookingLink:string
   }
   
   export interface FlightResponse {
