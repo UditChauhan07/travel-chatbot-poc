@@ -24,7 +24,7 @@ export function FlightResults({ results }: FlightResultsProps) {
         {results.suggestions.map((flight, index) => (
           <a
             key={index}
-            href={flight.bookingLink}
+            href={flight?.bookingLink}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.cardLink} // Add CSS for styling the link
