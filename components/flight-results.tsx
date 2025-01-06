@@ -1,5 +1,5 @@
 // import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Plane } from "lucide-react";
+
 import type { FlightResponse } from "../types/flight";
 import styles from "./Result.module.css";
 interface FlightResultsProps {

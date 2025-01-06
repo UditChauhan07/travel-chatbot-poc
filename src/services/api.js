@@ -1,10 +1,11 @@
 "use client";
-import axios from "axios";
+
 const flightResults = [];
 console.log(flightResults, "flightResults");
 const API_URL = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(API_URL);
+console.log(API_URL,"ooooooo--->")
 //correct code
 // export const searchFlights = async (searchParams) => {
 //   try {
@@ -207,27 +208,6 @@ export const searchFlights = async (searchParams) => {
 };
 export async function askQuery(query, flightResults) {
   console.log({ flightResults });
-
-  // Ensure flightResults is an array
-  const flightArray = Array.isArray(flightResults)
-    ? flightResults
-    : flightResults?.suggestions || [];
-
-  const formattedResults = flightArray
-    .map(
-      (flight, index) => `
-    Flight ${index + 1}:
-    Airline: ${flight.airline}
-    Flight Number: ${flight.flightNumber}
-    Departure: ${flight.departure}
-    Arrival: ${flight.arrival}
-    Price: ${flight.price}
-    Class: ${flight.class}
-    Duration: ${flight.duration}
-  `
-    )
-    .join("\n");
-
   // const prompt = `
   //   Given the following flight search results:
 
