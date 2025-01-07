@@ -1,11 +1,10 @@
-// import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-
 import type { FlightResponse } from "../types/flight";
 import styles from "./Result.module.css";
 interface FlightResultsProps {
   results: FlightResponse;
 }
 export function FlightResults({ results }: FlightResultsProps) {
+  
   return (
     <div className="">
       <div className={styles.summeryCardMain}>
@@ -57,7 +56,11 @@ export function FlightResults({ results }: FlightResultsProps) {
                 </div>
                 <div className={styles.detailRow}>
                   <span className={styles.label}>Booking Link:</span>
-                  <span className={styles.value}>{flight.bookingLink}</span>
+                  <span className={styles.value}>
+                    
+                    
+                    {flight.bookingLink}
+                    </span>
                 </div>
               </div>
             </div>

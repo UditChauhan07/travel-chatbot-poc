@@ -152,3 +152,14 @@
   transform: translateY(-4px); /* Slight lift effect */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
 }
+.cardLinkBtn{ background-color: black;
+  color: white;
+  border: none;
+  padding: 0.60rem 1.3rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-family: "Montserrat", sans-serif;}

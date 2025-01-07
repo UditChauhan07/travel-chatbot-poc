@@ -7,10 +7,9 @@ import PreferencesModal from "./components/PreferencesModal/PreferencesModal";
 import QueryForm from "./components/QueryForm/QueryForm";
 import styles from "./App.module.css";
 import { IoChevronBackCircleSharp } from "react-icons/io5";
-
 function App() {
   const [results, setResults] = useState(null);
-  const [hasError, setHasError] = useState(false); // To track if an error occurred
+  const [hasError, setHasError] = useState(false); 
   const [showPreferences, setShowPreferences] = useState(false);
   const [preferences, setPreferences] = useState({
     budget: "",
@@ -34,12 +33,11 @@ function App() {
       setShowPreferences(true);
     }
   }, []);
-
   useEffect(() => {
     localStorage.setItem("flightPreferences", JSON.stringify(preferences));
   }, [preferences]);
-
   const handleResults = (data) => {
+
     setResults(data);
     setHasError(false);
   };
@@ -47,8 +45,8 @@ function App() {
   const handleClosePreferences = () => {
     setShowPreferences(false);
     localStorage.setItem("hasSetPreferences", "true");
+    
   };
-
   const handleResetPreferences = () => {
     setShowPreferences(true);
     localStorage.removeItem("hasSetPreferences");
@@ -94,6 +92,7 @@ function App() {
       )}
       {showPreferences && (
         <PreferencesModal
+        onResults={handleResults}
           preferences={preferences}
           setPreferences={setPreferences}
           onClose={handleClosePreferences}
