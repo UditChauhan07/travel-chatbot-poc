@@ -14,6 +14,46 @@ const FlightSearchForm = ({
   const [destination, setDestination] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+
+    // Array of month names in shortened form
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    // Array of weekday names
+    const weekdays = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
+    // Get day, month, year, and weekday
+    const day = date.getDate();
+    const month = months[date.getMonth()]; // Get month name (abbreviated)
+    const year = date.getFullYear();
+    const weekday = weekdays[date.getDay()]; // Get the day of the week
+
+    // Return formatted string
+    return `${day} ${month} ${year} ${weekday}`;
+  }
+
   const handleSubmit = async (e) => {
     // Check if origin matches destination
     if (origin.toLowerCase() === destination.toLowerCase()) {
@@ -116,7 +156,6 @@ const FlightSearchForm = ({
             </>
           )}
         </div>
-      
 
         {preferences.isReturnFlight && preferences.returnDate && (
           <p>
