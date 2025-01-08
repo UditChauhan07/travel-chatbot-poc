@@ -45,7 +45,7 @@ function App() {
       setHasError(false);
       setTimeout(() => {
         setLoading(false);
-      }, 1000);
+      }, 200);
     } catch (error) {
       setLoading(false);
       window.location.reload();
@@ -65,6 +65,14 @@ function App() {
   const handleLoading = () => {
     setLoading(true);
   };
+  //updatePreferences
+  const updatePreferences = (newPreferences) => {
+    setPreferences((prevPreferences) => ({
+      ...prevPreferences,
+      ...newPreferences,
+    }));
+  };
+  
   return (
     // <Layout>
     <>
@@ -83,6 +91,7 @@ function App() {
           onResults={handleResults}
           preferences={preferences}
           onLoading={handleLoading}
+          updatePreferences={updatePreferences}
         />
       )}
 
@@ -91,8 +100,8 @@ function App() {
           {" "}
           <RotatingLines
             visible={true}
-            height="100"
-            width="100"
+            height="80"
+            width="80"
             strokeColor="black"
             strokeWidth="5"
             animationDuration="0.75"
@@ -125,6 +134,8 @@ function App() {
           setPreferences={setPreferences}
           onClose={handleClosePreferences}
           onLoading={handleLoading}
+          results={results}
+         
         />
       )}
     </>

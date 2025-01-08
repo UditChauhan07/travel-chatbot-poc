@@ -78,3 +78,13 @@
   justify-content: center;
   gap: 10px;
 }
+.departureDiv{display: flex;align-items: center;gap: 5px;justify-content: space-between;}
+.departureDiv input{
+  width: 27%;
+  padding: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.blodFont{font-weight: 900;color: black;}

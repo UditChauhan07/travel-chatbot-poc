@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./PreferencesModal.module.css";
 import { IoClose } from "react-icons/io5";
 import { searchFlights } from "@/services/api";
@@ -8,7 +8,13 @@ const PreferencesModal = ({
   setPreferences,
   onClose,
   onLoading,
+  results,
 }) => {
+  const [originByPreferences, setOriginByPreferences] = useState("");
+  const [destinationByPreferences, setDestinationByPreferences] = useState("");
+  const getPreferences = localStorage.getItem("flightPreferences");
+  const hasSetPreferences = localStorage.getItem("hasSetPreferences");
+  const [error, setError] = useState("");
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     // If the return date is being updated, check the validation
@@ -26,10 +32,16 @@ const PreferencesModal = ({
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-  const getPreferences = localStorage.getItem("flightPreferences");
-  const hasSetPreferences = localStorage.getItem("hasSetPreferences");
-  console.log(hasSetPreferences, "hasSetPreferences-->");
   const handleAddPreferences = async () => {
+    // Check if origin matches destination
+    if (
+      originByPreferences.toLowerCase() ===
+      destinationByPreferences.toLowerCase()
+    &&originByPreferences&&destinationByPreferences) {
+      setError("Origin and destination cannot be the same.");
+      return; // Prevent form submission
+    }
+    setError(""); // Clear error if validation passes
     onClose();
     if (
       JSON.stringify(getPreferences) !== JSON.stringify(preferences) &&
@@ -38,8 +50,9 @@ const PreferencesModal = ({
       try {
         onLoading(true);
         console.log("Preferences already set. Searching for flights...");
-        const origin = localStorage.getItem("origin");
-        const destination = localStorage.getItem("destination");
+        const origin = originByPreferences || localStorage.getItem("origin");
+        const destination =
+          destinationByPreferences || localStorage.getItem("destination");
         const results = await searchFlights({
           origin,
           destination,
@@ -66,6 +79,31 @@ const PreferencesModal = ({
         </div>
         <h2>Set Your Travel Preferences</h2>
         <form>
+          {results && (
+            <div>
+              <div className={styles.formGroup}>
+                <label htmlFor="origin">Origin</label>
+                <input
+                  type="text"
+                  id="origin"
+                  value={originByPreferences}
+                  onChange={(e) => setOriginByPreferences(e.target.value)}
+                  required
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="destination">Destination</label>
+                <input
+                  type="text"
+                  id="destination"
+                  value={destinationByPreferences}
+                  onChange={(e) => setDestinationByPreferences(e.target.value)}
+                  required
+                />
+              </div>
+              {error && <p className={styles.error}>{error}</p>}
+            </div>
+          )}
           <div className={styles.formGroup}>
             <label htmlFor="budget">Budget (USD)</label>
             <input

@@ -4,12 +4,55 @@ import { searchFlights } from "../../services/api";
 import styles from "./FlightSearchForm.module.css";
 import { FaPlane } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
-const FlightSearchForm = ({ onResults, preferences = {}, onLoading }) => {
-  console.log(preferences, "preferences-->");
+const FlightSearchForm = ({
+  onResults,
+  preferences = {},
+  onLoading,
+  updatePreferences,
+}) => {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+
+    // Array of month names in shortened form
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    // Array of weekday names
+    const weekdays = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+
+    // Get day, month, year, and weekday
+    const day = date.getDate();
+    const month = months[date.getMonth()]; // Get month name (abbreviated)
+    const year = date.getFullYear();
+    const weekday = weekdays[date.getDay()]; // Get the day of the week
+
+    // Return formatted string
+    return `${day} ${month} ${year} ${weekday}`;
+  }
 
   const handleSubmit = async (e) => {
     // Check if origin matches destination
@@ -30,10 +73,9 @@ const FlightSearchForm = ({ onResults, preferences = {}, onLoading }) => {
       localStorage.setItem("origin", origin);
       localStorage.setItem("destination", destination);
       onResults(results);
- 
-        onLoading(false);
-    
-     
+
+      onLoading(false);
+
       setLoading(false);
     } catch (error) {
       console.error("Error searching flights:", error);
@@ -77,9 +119,57 @@ const FlightSearchForm = ({ onResults, preferences = {}, onLoading }) => {
         </div>
         {error && <p className={styles.error}>{error}</p>}
         <div className={styles.dateInfo}>
-          <p>Departure: {preferences.departureDate}</p>
-          {preferences.isReturnFlight && (
-            <p>Return: {preferences.returnDate}</p>
+          {preferences.departureDate ? (
+            <div className={styles.departureDiv}>
+              <p>
+                Departure:{" "}
+                <b className={styles.blodFont}>
+                  {formatDate(preferences.departureDate)}
+                </b>
+              </p>
+              <input
+                type="date"
+                onChange={(e) => {
+                  // Handle the date change and update the state
+                  const updatedDate = e.target.value;
+                  // Assuming you have a function to update preferences
+                  updatePreferences({
+                    ...preferences,
+                    departureDate: updatedDate,
+                  });
+                }}
+                placeholder="Select a departure date"
+              />
+            </div>
+          ) : (
+            <>
+              <div className={styles.departureDiv}>
+                <p>Departure: </p>{" "}
+                <input
+                  type="date"
+                  onChange={(e) => {
+                    // Handle the date change and update the state
+                    const updatedDate = e.target.value;
+                    // Assuming you have a function to update preferences
+                    updatePreferences({
+                      ...preferences,
+                      departureDate: updatedDate,
+                    });
+                  }}
+                  placeholder="Select a departure date"
+                />
+              </div>
+            </>
+          )}
+
+          {preferences.isReturnFlight && preferences.returnDate && (
+            <p>
+              Return:
+              <b className={styles.blodFont}>
+                {" "}
+                {formatDate(preferences.returnDate)}
+              </b>
+            </p>
           )}
         </div>
         <button type="submit" disabled={loading}>
