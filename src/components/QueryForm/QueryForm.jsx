@@ -16,16 +16,16 @@
 //   const cleanResponse = (response) => {
 //     // Remove text wrapped in double asterisks
 //     let cleaned = response.replace(/\*\*.*?\*\*/g, "").trim();
-    
+
 //     // Replace each '*' with <li> wrapped in <ul> to create a list
 //     cleaned = cleaned.replace(/\*/g, "<br />");
-  
+
 //     // Optionally, wrap content in <p> for paragraphs
 //     cleaned = `<p>${cleaned.replace(/<br \/>/g, "</p><p>")}</p>`;
-  
+
 //     return cleaned;
 //   };
-  
+
 //   const handleSubmit = async (e) => {
 //     e.preventDefault();
 //     setLoading(true);
@@ -90,7 +90,6 @@
 
 // export default QueryForm;
 
-
 "use client";
 import React, { useState } from "react";
 import { askQuery } from "../../services/api";
@@ -118,11 +117,13 @@ const QueryForm = ({ flightResults }) => {
       setAnswer(cleanedResponse);
       // Add new question-answer pair at the top of the history array
       setHistory([...history, { question: query, answer: cleanedResponse }]);
-      setQuery("")
+      setQuery("");
     } catch (error) {
-      setQuery("")
+      setQuery("");
       console.error("Error asking query:", error);
-      setAnswer("Sorry, there was an error processing your query. Please try again.");
+      setAnswer(
+        "Sorry, there was an error processing your query. Please try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -130,7 +131,6 @@ const QueryForm = ({ flightResults }) => {
 
   return (
     <div className={styles.queryMain}>
-         
       <div className={styles.queryForm}>
         {/* Chat-like view for questions and answers */}
         <div className={styles.chatContainer}>
@@ -139,7 +139,10 @@ const QueryForm = ({ flightResults }) => {
               <div className={styles.question}>
                 <strong></strong> {item.question}
               </div>
-              <div className={styles.answer} dangerouslySetInnerHTML={{ __html: item.answer }} />
+              <div
+                className={styles.answer}
+                dangerouslySetInnerHTML={{ __html: item.answer }}
+              />
             </div>
           ))}
         </div>
@@ -172,8 +175,6 @@ const QueryForm = ({ flightResults }) => {
             )}
           </button>
         </form>
-        
-     
       </div>
     </div>
   );

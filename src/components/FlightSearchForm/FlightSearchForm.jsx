@@ -4,7 +4,7 @@ import { searchFlights } from "../../services/api";
 import styles from "./FlightSearchForm.module.css";
 import { FaPlane } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
-const FlightSearchForm = ({ onResults, preferences = {} }) => {
+const FlightSearchForm = ({ onResults, preferences = {}, onLoading }) => {
   console.log(preferences, "preferences-->");
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
@@ -21,6 +21,7 @@ const FlightSearchForm = ({ onResults, preferences = {} }) => {
     e.preventDefault();
     setLoading(true);
     try {
+      onLoading(true);
       const results = await searchFlights({
         origin,
         destination,
@@ -29,11 +30,17 @@ const FlightSearchForm = ({ onResults, preferences = {} }) => {
       localStorage.setItem("origin", origin);
       localStorage.setItem("destination", destination);
       onResults(results);
+ 
+        onLoading(false);
+    
+     
+      setLoading(false);
     } catch (error) {
       console.error("Error searching flights:", error);
       // Handle error (e.g., show error message to user)
     } finally {
       setLoading(false);
+      onLoading(false);
     }
   };
   return (

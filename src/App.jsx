@@ -7,10 +7,12 @@ import PreferencesModal from "./components/PreferencesModal/PreferencesModal";
 import QueryForm from "./components/QueryForm/QueryForm";
 import styles from "./App.module.css";
 import { IoChevronBackCircleSharp } from "react-icons/io5";
+import { RotatingLines } from "react-loader-spinner";
 function App() {
   const [results, setResults] = useState(null);
-  const [hasError, setHasError] = useState(false); 
+  const [hasError, setHasError] = useState(false);
   const [showPreferences, setShowPreferences] = useState(false);
+  const [loading, setLoading] = useState();
   const [preferences, setPreferences] = useState({
     budget: "",
     class: "economy",
@@ -37,22 +39,31 @@ function App() {
     localStorage.setItem("flightPreferences", JSON.stringify(preferences));
   }, [preferences]);
   const handleResults = (data) => {
-
-    setResults(data);
-    setHasError(false);
+    try {
+      setLoading(true);
+      setResults(data);
+      setHasError(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    } catch (error) {
+      setLoading(false);
+      window.location.reload();
+    }
   };
-
   const handleClosePreferences = () => {
     setShowPreferences(false);
     localStorage.setItem("hasSetPreferences", "true");
-    
   };
   const handleResetPreferences = () => {
     setShowPreferences(true);
-    localStorage.removeItem("hasSetPreferences");
+    // localStorage.removeItem("hasSetPreferences");
   };
   const handleBack = () => {
     window.location.reload();
+  };
+  const handleLoading = () => {
+    setLoading(true);
   };
   return (
     // <Layout>
@@ -71,11 +82,28 @@ function App() {
         <FlightSearchForm
           onResults={handleResults}
           preferences={preferences}
-          // onResetPreferences={handleResetPreferences}
+          onLoading={handleLoading}
         />
       )}
 
-      {results && <FlightResults results={results} />}
+      {results && loading ? (
+        <div className={styles.resultlLoader}>
+          {" "}
+          <RotatingLines
+            visible={true}
+            height="100"
+            width="100"
+            strokeColor="black"
+            strokeWidth="5"
+            animationDuration="0.75"
+            ariaLabel="rotating-lines-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
+      ) : (
+        results && <FlightResults results={results} />
+      )}
       {results && <QueryForm flightResults={results} />}
       {results && (
         <div className={styles.resetPreferencesButton}>
@@ -92,10 +120,11 @@ function App() {
       )}
       {showPreferences && (
         <PreferencesModal
-        onResults={handleResults}
+          onResults={handleResults}
           preferences={preferences}
           setPreferences={setPreferences}
           onClose={handleClosePreferences}
+          onLoading={handleLoading}
         />
       )}
     </>

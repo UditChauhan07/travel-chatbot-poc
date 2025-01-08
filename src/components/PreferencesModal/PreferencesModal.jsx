@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styles from "./PreferencesModal.module.css";
 import { IoClose } from "react-icons/io5";
 import { searchFlights } from "@/services/api";
@@ -7,6 +7,7 @@ const PreferencesModal = ({
   preferences,
   setPreferences,
   onClose,
+  onLoading,
 }) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -26,10 +27,16 @@ const PreferencesModal = ({
     }));
   };
   const getPreferences = localStorage.getItem("flightPreferences");
+  const hasSetPreferences = localStorage.getItem("hasSetPreferences");
+  console.log(hasSetPreferences, "hasSetPreferences-->");
   const handleAddPreferences = async () => {
     onClose();
-    if (JSON.stringify(getPreferences) !== JSON.stringify(preferences)) {
+    if (
+      JSON.stringify(getPreferences) !== JSON.stringify(preferences) &&
+      hasSetPreferences == "true"
+    ) {
       try {
+        onLoading(true);
         console.log("Preferences already set. Searching for flights...");
         const origin = localStorage.getItem("origin");
         const destination = localStorage.getItem("destination");
@@ -39,10 +46,12 @@ const PreferencesModal = ({
           ...(preferences || {}),
         });
         onResults(results);
+        onLoading(false);
         onClose();
       } catch (error) {
         console.error("Error during flight search:", error);
         onClose();
+        onLoading(false);
         // Optionally, handle the error (e.g., show a message to the user)
       }
     }

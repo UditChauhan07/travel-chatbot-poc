@@ -1,6 +1,4 @@
 "use client";
-const flightResults = [];
-console.log(flightResults, "flightResults");
 const API_URL = process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
 import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(API_URL);
@@ -8,8 +6,7 @@ const genAI = new GoogleGenerativeAI(API_URL);
 export const searchFlights = async (searchParams) => {
   try {
     const { origin, destination, ...preferences } = searchParams;
-    console.log(searchParams, "searchParams-->");
-    console.log(preferences, "api");
+
     const prompt = `
     You are a flight travel assistant. Provide the 6 best flight options for traveling from ${origin} to ${destination}, based on the following preferences: ${JSON.stringify(
       preferences
@@ -47,7 +44,7 @@ export const searchFlights = async (searchParams) => {
     7. Make sure to provide the most accurate and up-to-date flight information. The data should reflect the latest available flights, not outdated or incorrect information.
     8. Summarize the options clearly, highlighting differences in price, duration, and layovers.
     9. If the budget is restrictive or the preferences are narrow, explain any trade-offs (e.g., longer durations, more layovers) in the summary.
-
+    10. Provide exactly 6 suggestions, ensuring the JSON object is complete and valid.
     `;
     console.log("Sending prompt to AI model:", prompt);
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });

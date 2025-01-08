@@ -13,7 +13,7 @@
   background-color: black;
   color: white;
   border: none;
-  padding: 0.60rem 1.3rem;
+  padding: 0.6rem 1.3rem;
   font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -32,12 +32,14 @@
   border: 1px soldi black;
   margin: 1.5rem;
 }
-.backBtnIcon{font-size: 22px;}
+.backBtnIcon {
+  font-size: 22px;
+}
 .backBtn button {
   background-color: black;
   color: white;
   border: none;
-  padding: 0.60rem 1.3rem;
+  padding: 0.6rem 1.3rem;
   font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -45,5 +47,16 @@
   width: 100%;
   margin-bottom: 1rem;
   font-family: "Montserrat", sans-serif;
-  display:flex;align-items: center;justify-content: center;gap: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+.resultlLoader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 40px 0px 40px 0px;
+  /* margin: 40px; */
 }
