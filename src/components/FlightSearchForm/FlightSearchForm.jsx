@@ -4,8 +4,8 @@ import { searchFlights } from "../../services/api";
 import styles from "./FlightSearchForm.module.css";
 import { FaPlane } from "react-icons/fa";
 import { RotatingLines } from "react-loader-spinner";
-
-const FlightSearchForm = ({ onResults, preferences, onResetPreferences }) => {
+const FlightSearchForm = ({ onResults, preferences = {}, onLoading }) => {
+  console.log(preferences, "preferences-->");
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [loading, setLoading] = useState(false);
@@ -17,25 +17,32 @@ const FlightSearchForm = ({ onResults, preferences, onResetPreferences }) => {
       setError("Origin and destination cannot be the same.");
       return; // Prevent form submission
     }
-
     setError(""); // Clear error if validation passes
     e.preventDefault();
     setLoading(true);
     try {
+      onLoading(true);
       const results = await searchFlights({
         origin,
         destination,
-        ...preferences,
+        ...(preferences || {}),
       });
+      localStorage.setItem("origin", origin);
+      localStorage.setItem("destination", destination);
       onResults(results);
+ 
+        onLoading(false);
+    
+     
+      setLoading(false);
     } catch (error) {
       console.error("Error searching flights:", error);
       // Handle error (e.g., show error message to user)
     } finally {
       setLoading(false);
+      onLoading(false);
     }
   };
-
   return (
     <div>
       <form className={styles.form} onSubmit={handleSubmit}>

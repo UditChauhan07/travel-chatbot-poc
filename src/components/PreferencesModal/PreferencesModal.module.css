@@ -31,14 +31,18 @@
 }
 
 .formGroup input[type="number"],
-.formGroup input[type="date"],
-.formGroup select {
+.formGroup input[type="date"] {
   width: 100%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
+.formGroup .selectDropdown {
+  width: 100% !important;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 .formGroup input[type="checkbox"] {
   margin-right: 0.5rem;
 }
@@ -55,4 +59,8 @@
   width: 100%;
   margin-bottom: 1rem;
   font-family: "Montserrat", sans-serif;
+}
+.closeIcon {
+  font-size: 25px;
+  cursor: pointer;
 }

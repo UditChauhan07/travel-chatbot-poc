@@ -1,17 +1,69 @@
-import React from 'react';
-import styles from './PreferencesModal.module.css';
-const PreferencesModal = ({ preferences, setPreferences, onClose }) => {
+import React from "react";
+import styles from "./PreferencesModal.module.css";
+import { IoClose } from "react-icons/io5";
+import { searchFlights } from "@/services/api";
+const PreferencesModal = ({
+  onResults,
+  preferences,
+  setPreferences,
+  onClose,
+  onLoading,
+}) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setPreferences(prev => ({
+    // If the return date is being updated, check the validation
+    if (name === "returnDate" && preferences.departureDate) {
+      const departureDate = new Date(preferences.departureDate);
+      const returnDate = new Date(value);
+      // Compare dates and show alert if return date is earlier than departure date
+      if (returnDate < departureDate) {
+        alert("Return date should be later than departure date.");
+        return; // Exit the function early if the validation fails
+      }
+    }
+    setPreferences((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
-
+  const getPreferences = localStorage.getItem("flightPreferences");
+  const hasSetPreferences = localStorage.getItem("hasSetPreferences");
+  console.log(hasSetPreferences, "hasSetPreferences-->");
+  const handleAddPreferences = async () => {
+    onClose();
+    if (
+      JSON.stringify(getPreferences) !== JSON.stringify(preferences) &&
+      hasSetPreferences == "true"
+    ) {
+      try {
+        onLoading(true);
+        console.log("Preferences already set. Searching for flights...");
+        const origin = localStorage.getItem("origin");
+        const destination = localStorage.getItem("destination");
+        const results = await searchFlights({
+          origin,
+          destination,
+          ...(preferences || {}),
+        });
+        onResults(results);
+        onLoading(false);
+        onClose();
+      } catch (error) {
+        console.error("Error during flight search:", error);
+        onClose();
+        onLoading(false);
+        // Optionally, handle the error (e.g., show a message to the user)
+      }
+    }
+  };
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>
+        <div>
+          <h3 onClick={onClose}>
+            <IoClose className={styles.closeIcon} />
+          </h3>
+        </div>
         <h2>Set Your Travel Preferences</h2>
         <form>
           <div className={styles.formGroup}>
@@ -32,6 +84,7 @@ const PreferencesModal = ({ preferences, setPreferences, onClose }) => {
               name="class"
               value={preferences.class}
               onChange={handleChange}
+              className={styles.selectDropdown}
             >
               <option value="economy">Economy</option>
               <option value="business">Business</option>
@@ -95,7 +148,9 @@ const PreferencesModal = ({ preferences, setPreferences, onClose }) => {
               Flexible Dates
             </label>
           </div>
-          <button type="button" onClick={onClose}>Save Preferences</button>
+          <button type="button" onClick={handleAddPreferences}>
+            Save Preferences
+          </button>
         </form>
       </div>
     </div>
@@ -103,4 +158,3 @@ const PreferencesModal = ({ preferences, setPreferences, onClose }) => {
 };
 
 export default PreferencesModal;
-
