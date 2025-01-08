@@ -26,6 +26,14 @@
   border-radius: 4px;
   font-size: 1rem;
 }
+.formGroup input[type="date"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
 
 .dateInfo {
   margin-bottom: 1rem;
@@ -80,7 +88,7 @@
 }
 .departureDiv{display: flex;align-items: center;gap: 5px;justify-content: space-between;}
 .departureDiv input{
-  width: 27%;
+  width: 100%;
   padding: 0.3rem;
   border: 1px solid #ccc;
   border-radius: 4px;
