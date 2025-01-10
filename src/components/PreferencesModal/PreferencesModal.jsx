@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styles from "./PreferencesModal.module.css";
 import { IoClose } from "react-icons/io5";
 import { searchFlights } from "@/services/api";
+import GooglePlacesAutocomplete from "react-google-places-autocomplete";
+const API_MAP_URL = process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY;
+console.log(API_MAP_URL, "API_MAP_URL--->");
 const PreferencesModal = ({
   onResults,
   preferences,
@@ -10,10 +13,6 @@ const PreferencesModal = ({
   onLoading,
   results,
 }) => {
-  const [originByPreferences, setOriginByPreferences] = useState("");
-  const [destinationByPreferences, setDestinationByPreferences] = useState("");
-  const getPreferences = localStorage.getItem("flightPreferences");
-  const hasSetPreferences = localStorage.getItem("hasSetPreferences");
   const [error, setError] = useState("");
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -34,40 +33,42 @@ const PreferencesModal = ({
   };
   const handleAddPreferences = async () => {
     // Check if origin matches destination
-    if (
-      originByPreferences.toLowerCase() ===
-      destinationByPreferences.toLowerCase()
-    &&originByPreferences&&destinationByPreferences) {
-      setError("Origin and destination cannot be the same.");
-      return; // Prevent form submission
-    }
-    setError(""); // Clear error if validation passes
+    // if (
+    //   preferences.origin.toLowerCase() ===
+    //     preferences.destination.toLowerCase() &&
+    //   preferences.destination &&
+    //   preferences.origin
+    // ) {
+    //   setError("Origin and destination cannot be the same.");
+    //   return; // Prevent form submission
+    // }
+    // setError(""); // Clear error if validation passes
     onClose();
-    if (
-      JSON.stringify(getPreferences) !== JSON.stringify(preferences) &&
-      hasSetPreferences == "true"
-    ) {
-      try {
-        onLoading(true);
-        console.log("Preferences already set. Searching for flights...");
-        const origin = originByPreferences || localStorage.getItem("origin");
-        const destination =
-          destinationByPreferences || localStorage.getItem("destination");
-        const results = await searchFlights({
-          origin,
-          destination,
-          ...(preferences || {}),
-        });
-        onResults(results);
-        onLoading(false);
-        onClose();
-      } catch (error) {
-        console.error("Error during flight search:", error);
-        onClose();
-        onLoading(false);
-        // Optionally, handle the error (e.g., show a message to the user)
-      }
-    }
+    // if (
+    //   JSON.stringify(getPreferences) !== JSON.stringify(preferences) &&
+    //   hasSetPreferences == "true"
+    // ) {
+    //   try {
+    //     onLoading(true);
+    //     console.log("Preferences already set. Searching for flights...");
+    //     const origin = originByPreferences || localStorage.getItem("origin");
+    //     const destination =
+    //       destinationByPreferences || localStorage.getItem("destination");
+    //     // const results = await searchFlights({
+    //     //   origin,
+    //     //   destination,
+    //     //   ...(preferences || {}),
+    //     // });
+    //     onResults(results);
+    //     onLoading(false);
+    //     onClose();
+    //   } catch (error) {
+    //     console.error("Error during flight search:", error);
+    //     onClose();
+    //     onLoading(false);
+    //     // Optionally, handle the error (e.g., show a message to the user)
+    //   }
+    // }
   };
   return (
     <div className={styles.modalOverlay}>
@@ -79,41 +80,83 @@ const PreferencesModal = ({
         </div>
         <h2>Set Your Travel Preferences</h2>
         <form>
-          {results && (
-            <div>
-              <div className={styles.formGroup}>
-                <label htmlFor="origin">Origin</label>
+          {/* <div>
+            <div className={styles.formGroup}>
+              <label htmlFor="origin">Origin</label>
+              <>
                 <input
                   type="text"
                   id="origin"
-                  value={originByPreferences}
-                  onChange={(e) => setOriginByPreferences(e.target.value)}
+                  value={preferences.origin}
+                  onChange={handleChange}
                   required
+                  name="origin"
                 />
-              </div>
-              <div className={styles.formGroup}>
-                <label htmlFor="destination">Destination</label>
+              </>
+            </div>
+            <div className={styles.formGroup}>
+              <label htmlFor="destination">Destination</label>
+              <>
                 <input
                   type="text"
                   id="destination"
-                  value={destinationByPreferences}
-                  onChange={(e) => setDestinationByPreferences(e.target.value)}
+                  value={preferences.destination}
+                  onChange={handleChange}
                   required
+                  name="destination"
                 />
-              </div>
-              {error && <p className={styles.error}>{error}</p>}
+              </>
             </div>
-          )}
+            {error && <p className={styles.error}>{error}</p>}
+          </div> */}
+
           <div className={styles.formGroup}>
-            <label htmlFor="budget">Budget (USD)</label>
+            <label htmlFor="budget">Budget Range</label>
             <input
-              type="number"
+              type="text"
               id="budget"
               name="budget"
               value={preferences.budget}
               onChange={handleChange}
               required
+              placeholder="Enter your budget"
             />
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="budgetType">Budget Type</label>
+            <select
+              id="budgetType"
+              name="budgetType"
+              value={preferences.budgetType}
+              onChange={handleChange}
+              required
+              className={styles.selectDropdown}
+            >
+              <option value="" disabled>
+                Select Budget Type
+              </option>
+              <option value="domestic flight">Domestic flight</option>
+              <option value="international flight">International flight</option>
+            </select>
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="live">Where do you live</label>
+            <>
+              <input
+              type="text"
+              id="live"
+              name="live"
+              value={preferences.live}
+              onChange={handleChange}
+              required
+            />
+              {/* <GooglePlacesAutocomplete
+                apiKey={API_MAP_URL}
+                selectProps={{
+                  onChange: (place) => console.log(place),
+                }}
+              /> */}
+            </>
           </div>
           <div className={styles.formGroup}>
             <label htmlFor="class">Preferred Class</label>
@@ -185,6 +228,23 @@ const PreferencesModal = ({
               />
               Flexible Dates
             </label>
+          </div>
+          <div className={styles.formGroup}>
+            <label htmlFor="flyType">Do you fly for Business</label>
+            <select
+              id="flyType"
+              name="flyType"
+              value={preferences.flyType}
+              onChange={handleChange}
+              required
+              className={styles.selectDropdown}
+            >
+              <option value="" disabled>
+                Select
+              </option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
           </div>
           <button type="button" onClick={handleAddPreferences}>
             Save Preferences

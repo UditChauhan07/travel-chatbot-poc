@@ -72,11 +72,11 @@ function App() {
       ...newPreferences,
     }));
   };
-  
+
   return (
     // <Layout>
     <>
-      {results && (
+      {/* {results && (
         <div className={styles.backBtn}>
           <button onClick={handleBack}>
             {" "}
@@ -84,37 +84,40 @@ function App() {
             Back
           </button>
         </div>
-      )}
+      )} */}
       <h1 className={styles.title}>AI Flight Assistant</h1>
-      {results === null && (
+      {/* {results === null && (
         <FlightSearchForm
           onResults={handleResults}
           preferences={preferences}
           onLoading={handleLoading}
           updatePreferences={updatePreferences}
         />
-      )}
-
-      {results && loading ? (
-        <div className={styles.resultlLoader}>
-          {" "}
-          <RotatingLines
-            visible={true}
-            height="80"
-            width="80"
-            strokeColor="black"
-            strokeWidth="5"
-            animationDuration="0.75"
-            ariaLabel="rotating-lines-loading"
-            wrapperStyle={{}}
-            wrapperClass=""
-          />
-        </div>
-      ) : (
-        results && <FlightResults results={results} />
-      )}
-      {results && <QueryForm flightResults={results} />}
-      {results && (
+      )} */}
+      <div className={styles.chatDivMain}>
+        <div className={styles.chatDiv}>
+          {/* {preferences && loading ? (
+            <div className={styles.resultlLoader}>
+              {" "}
+              <RotatingLines
+                visible={true}
+                height="80"
+                width="80"
+                strokeColor="black"
+                strokeWidth="5"
+                animationDuration="0.75"
+                ariaLabel="rotating-lines-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            </div>
+          ) : (
+            preferences && <FlightResults results={results} />
+          )} */}
+          {preferences && <QueryForm flightResults={results}      preferences={preferences} />}
+        </div>{" "}
+      </div>
+      {preferences && (
         <div className={styles.resetPreferencesButton}>
           {" "}
           <button
@@ -135,7 +138,6 @@ function App() {
           onClose={handleClosePreferences}
           onLoading={handleLoading}
           results={results}
-         
         />
       )}
     </>

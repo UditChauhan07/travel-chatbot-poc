@@ -1,13 +1,13 @@
 import type { FlightResponse } from "../types/flight";
-import styles from "./Result.module.css";
 interface FlightResultsProps {
   results: FlightResponse;
 }
 export function FlightResults({ results }: FlightResultsProps) {
-  
+  console.log(results)
   return (
     <div className="">
-      <div className={styles.summeryCardMain}>
+      
+      {/* <div className={styles.summeryCardMain}>
         <div className={styles.summeryCard}>
           <div className={styles.header}>
             <span className={styles.airline}>Summary</span>
@@ -66,7 +66,7 @@ export function FlightResults({ results }: FlightResultsProps) {
             </div>
           </a>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
